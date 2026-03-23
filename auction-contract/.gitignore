@@ -1,0 +1,21 @@
+# Build artifacts
+target/
+**/*.rs.bk
+Cargo.lock
+
+# WASM build output
+*.wasm
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Stellar
+.soroban
