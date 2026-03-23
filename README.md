@@ -80,17 +80,15 @@ Open http://localhost:3000
 
 ## Screenshots (Submission Order)
 
-| Order | What to Capture | File | Preview |
-| --- | --- | --- | --- |
-| 1 | Multi-wallet selector modal (Freighter + Albedo + xBull) | public/screenshots/Screenshot%202026-03-23%20205733.png | <img src="public/screenshots/Screenshot%202026-03-23%20205733.png" width="360" /> |
-| 2 | Contract state live data (Highest Bid or Timer) | public/screenshots/Screenshot%202026-03-23%20204019.png | <img src="public/screenshots/Screenshot%202026-03-23%20204019.png" width="360" /> |
-| 3 | Signing popup for place_bid | public/screenshots/Screenshot%202026-03-23%20203942.png | <img src="public/screenshots/Screenshot%202026-03-23%20203942.png" width="360" /> |
-| 4 | Successful bid + event toast | public/screenshots/Screenshot%202026-03-23%20204005.png | <img src="public/screenshots/Screenshot%202026-03-23%20204005.png" width="360" /> |
-
-Additional evidence:
-- Error Handling (User Rejected): red alert message.
-- Error Handling (Insufficient Balance): orange warning banner.
-- Wallet Not Found: install prompt in wallet modal.
+| Order | What to Capture | Preview |
+| --- | --- | --- |
+| 1 | Multi-wallet selector modal (Freighter + Albedo + xBull) | <img src="public/screenshots/Screenshot%202026-03-23%20205733.png" width="360" /> |
+| 2 | Contract state live data (Highest Bid or Timer) | <img src="public/screenshots/Screenshot%202026-03-23%20204019.png" width="360" /> |
+| 3 | Signing popup for place_bid | <img src="public/screenshots/Screenshot%202026-03-23%20203942.png" width="360" /> |
+| 4 | Successful bid + event toast | <img src="public/screenshots/Screenshot%202026-03-23%20204005.png" width="360" /> |
+| 5 | Error Handling: Wallet Not Found | <img src="public/screenshots/Screenshot%202026-03-23%20211000.png" width="360" /> |
+| 6 | Error Handling: User Rejected | <img src="public/screenshots/Screenshot%202026-03-23%20211030.png" width="360" /> |
+| 7 | Error Handling: Insufficient Balance | <img src="public/screenshots/Screenshot%202026-03-23%20211100.png" width="360" /> |
 
 ## Verification Links
 
