@@ -78,6 +78,21 @@ export default function Dashboard() {
   return (
     <MainLayout>
       <div className="space-y-8">
+        {state.winner && (
+          <div className="rounded-2xl border border-emerald-700/40 bg-emerald-950/30 p-4">
+            <p className="text-sm text-emerald-200">
+              Winner announced by admin
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-3 text-emerald-100">
+              <span className="font-mono">
+                {state.winner.bidder}
+              </span>
+              <span className="rounded-full bg-emerald-700/40 px-3 py-1 text-xs">
+                {state.winner.amount} XLM
+              </span>
+            </div>
+          </div>
+        )}
         {/* Hero Section */}
         <div>
           <h1 className="mb-2 text-4xl font-bold text-slate-200">Live Auction</h1>

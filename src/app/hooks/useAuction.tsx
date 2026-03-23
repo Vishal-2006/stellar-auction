@@ -14,6 +14,7 @@ export interface Bid {
 
 export interface AuctionState {
   topBid: Bid | null;
+  winner: Bid | null;
   userBalance: string;
   userAddress: string | null;
   walletProvider: string | null;
@@ -25,6 +26,7 @@ export interface AuctionState {
 
 const initialState: AuctionState = {
   topBid: null,
+  winner: null,
   userBalance: "0",
   userAddress: null,
   walletProvider: null,
@@ -36,6 +38,11 @@ const initialState: AuctionState = {
 
 const BIDS_STORAGE_KEY = "auction-pulse:bids";
 const TOP_BID_STORAGE_KEY = "auction-pulse:top-bid";
+const WINNER_STORAGE_KEY = "auction-pulse:winner";
+const ADMIN_STORAGE_KEY = "auction-pulse:admin-address";
+
+const CONFIGURED_ADMIN_ADDRESS =
+  process.env.NEXT_PUBLIC_ADMIN_ADDRESS || "";
 
 function canUseStorage() {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
@@ -64,6 +71,31 @@ function loadCachedTopBid(): Bid | null {
   }
 }
 
+function loadCachedWinner(): Bid | null {
+  if (!canUseStorage()) return null;
+  const raw = window.localStorage.getItem(WINNER_STORAGE_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as Bid;
+  } catch {
+    return null;
+  }
+}
+
+function readStoredAdminAddress(): string | null {
+  if (!canUseStorage()) return null;
+  return window.localStorage.getItem(ADMIN_STORAGE_KEY);
+}
+
+function storeAdminAddress(address: string) {
+  if (!canUseStorage()) return;
+  window.localStorage.setItem(ADMIN_STORAGE_KEY, normalizeAddress(address));
+}
+
+function normalizeAddress(address?: string | null): string {
+  return (address || "").trim().toUpperCase();
+}
+
 /**
  * Hook for managing auction state and interactions with Soroban contract
  */
@@ -73,6 +105,7 @@ function useAuctionInternal() {
   const eventListenerRef = useRef<NodeJS.Timeout | null>(null);
   const eventsCursorRef = useRef<string | null>(null);
   const seenEventIdsRef = useRef<Set<string>>(new Set());
+  const [adminAddress, setAdminAddress] = useState<string | null>(null);
 
   const mergeBids = (incoming: StellarLib.BidEvent[]) => {
     if (incoming.length === 0) return;
@@ -128,6 +161,14 @@ function useAuctionInternal() {
       const address = walletInfo.address;
       const provider = walletInfo.provider;
 
+      if (!CONFIGURED_ADMIN_ADDRESS) {
+        const storedAdmin = readStoredAdminAddress();
+        if (!storedAdmin) {
+          storeAdminAddress(address);
+          setAdminAddress(normalizeAddress(address));
+        }
+      }
+
       // Load account data
       const accountData = await StellarLib.getAccountData(address);
       const balance = accountData.balances
@@ -146,6 +187,7 @@ function useAuctionInternal() {
         walletProvider: provider,
         userBalance: balance,
         topBid: topBid || prev.topBid,
+        winner: prev.winner,
         isConnected: true,
         isLoading: false,
         error: null,
@@ -338,6 +380,46 @@ function useAuctionInternal() {
     }
   };
 
+  const isAdmin =
+    !!adminAddress &&
+    !!state.userAddress &&
+    normalizeAddress(adminAddress) === normalizeAddress(state.userAddress);
+
+  /**
+   * Announce winner (admin only)
+   */
+  const announceWinner = async (): Promise<void> => {
+    if (!isAdmin) {
+      setState((prev) => ({
+        ...prev,
+        error: "Admin only: cannot announce winner",
+      }));
+      return;
+    }
+
+    if (!state.topBid) {
+      setState((prev) => ({
+        ...prev,
+        error: "No bids available to announce",
+      }));
+      return;
+    }
+
+    setState((prev) => ({
+      ...prev,
+      winner: state.topBid,
+      error: null,
+    }));
+  };
+
+  const clearWinner = async (): Promise<void> => {
+    if (!isAdmin) return;
+    setState((prev) => ({
+      ...prev,
+      winner: null,
+    }));
+  };
+
   /**
    * Reset auction on-chain (admin/testing)
    */
@@ -346,6 +428,13 @@ function useAuctionInternal() {
       setState((prev) => ({
         ...prev,
         error: "Wallet not connected",
+      }));
+      return null;
+    }
+    if (!isAdmin) {
+      setState((prev) => ({
+        ...prev,
+        error: "Admin only: cannot reset auction",
       }));
       return null;
     }
@@ -359,6 +448,7 @@ function useAuctionInternal() {
       setState((prev) => ({
         ...prev,
         topBid: null,
+        winner: null,
         bids: [],
         isLoading: false,
       }));
@@ -403,6 +493,7 @@ function useAuctionInternal() {
   useEffect(() => {
     const cachedBids = loadCachedBids();
     const cachedTopBid = loadCachedTopBid();
+    const cachedWinner = loadCachedWinner();
     if (cachedBids.length || cachedTopBid) {
       if (cachedBids.length) {
         const ids = cachedBids.map((bid) => bid.id).filter(Boolean) as string[];
@@ -412,7 +503,15 @@ function useAuctionInternal() {
         ...prev,
         bids: cachedBids.length ? cachedBids : prev.bids,
         topBid: cachedTopBid || prev.topBid,
+        winner: cachedWinner || prev.winner,
       }));
+    }
+
+    const storedAdmin = readStoredAdminAddress();
+    if (CONFIGURED_ADMIN_ADDRESS) {
+      setAdminAddress(normalizeAddress(CONFIGURED_ADMIN_ADDRESS));
+    } else if (storedAdmin) {
+      setAdminAddress(normalizeAddress(storedAdmin));
     }
   }, []);
 
@@ -421,7 +520,8 @@ function useAuctionInternal() {
     if (!canUseStorage()) return;
     window.localStorage.setItem(BIDS_STORAGE_KEY, JSON.stringify(state.bids));
     window.localStorage.setItem(TOP_BID_STORAGE_KEY, JSON.stringify(state.topBid));
-  }, [state.bids, state.topBid]);
+    window.localStorage.setItem(WINNER_STORAGE_KEY, JSON.stringify(state.winner));
+  }, [state.bids, state.topBid, state.winner]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -493,6 +593,10 @@ function useAuctionInternal() {
     disconnect,
     refreshBalance,
     resetAuction,
+    announceWinner,
+    clearWinner,
+    isAdmin,
+    adminAddress,
   };
 }
 
