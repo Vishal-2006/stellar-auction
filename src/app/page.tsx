@@ -6,11 +6,14 @@ import { motion } from "framer-motion";
 import { Zap, Shield } from "lucide-react";
 import { useAuction } from "@/app/hooks/useAuction";
 import { toast } from "sonner";
+import { WalletNotFoundModal } from "@/components/WalletNotFoundModal";
 
 export default function LandingPage() {
   const { state, connectWallet } = useAuction();
   const router = useRouter();
   const [isConnecting, setIsConnecting] = useState(false);
+  const [showWalletNotFoundModal, setShowWalletNotFoundModal] = useState(false);
+  const [walletNotFoundReason, setWalletNotFoundReason] = useState<"freighter" | "albedo" | "generic">("generic");
 
   // Redirect to dashboard if wallet is connected
   useEffect(() => {
@@ -19,6 +22,19 @@ export default function LandingPage() {
     }
   }, [state.isConnected, router]);
 
+  // Show wallet not found modal
+  useEffect(() => {
+    if (state.error) {
+      if (state.error.includes("albedo.finance")) {
+        setWalletNotFoundReason("albedo");
+        setShowWalletNotFoundModal(true);
+      } else if (state.error.includes("Wallet Not Found")) {
+        setWalletNotFoundReason("generic");
+        setShowWalletNotFoundModal(true);
+      }
+    }
+  }, [state.error]);
+
   const handleConnectWallet = async () => {
     try {
       setIsConnecting(true);
@@ -26,17 +42,18 @@ export default function LandingPage() {
       toast.success("Wallet connected successfully!");
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      if (errorMessage.includes("User Rejected")) {
-        toast.error("Connection Rejected", {
-          description: "You cancelled the connection request in your wallet",
+      if (errorMessage.includes("Wallet Not Found")) {
+        toast.error("⚠️ Wallet Not Found", {
+          description: "Please install a Stellar wallet browser extension:\n• Freighter\n• Albedo\n• xBull",
+          duration: 5000,
+        });
+      } else if (errorMessage.includes("User Rejected")) {
+        toast.error("❌ Connection Rejected", {
+          description: "You declined the connection request. Please try again to connect.",
         });
       } else if (errorMessage.includes("Popup Blocked")) {
-        toast.error("Popup Blocked", {
+        toast.error("🚫 Popup Blocked", {
           description: "Please allow popups for this site and try again",
-        });
-      } else if (errorMessage.includes("Wallet Not Found")) {
-        toast.error("Wallet Not Found", {
-          description: "Please install a Stellar wallet (Freighter, Albedo, or xBull)",
         });
       } else {
         toast.error("Connection Failed", {
@@ -166,6 +183,13 @@ export default function LandingPage() {
             </p>
           </motion.div>
         )}
+
+        {/* Wallet Not Found Modal */}
+        <WalletNotFoundModal
+          isOpen={showWalletNotFoundModal}
+          onClose={() => setShowWalletNotFoundModal(false)}
+          reason={walletNotFoundReason}
+        />
 
         {/* Footer Info */}
         <motion.div

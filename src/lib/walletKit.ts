@@ -143,7 +143,27 @@ export async function connectWallet(
         throw new Error(String(accessResult.error));
       }
       result = await StellarWalletsKit.getAddress();
-    } else if (walletId === ALBEDO_ID || walletId === XBULL_ID) {
+    } else if (walletId === ALBEDO_ID) {
+      try {
+        result = await StellarWalletsKit.getAddress();
+      } catch (albedoError: unknown) {
+        const errorMsg =
+          albedoError instanceof Error
+            ? albedoError.message
+            : String(albedoError);
+        // Albedo-specific error handling
+        if (
+          errorMsg.includes("Not Found") ||
+          errorMsg.includes("404") ||
+          errorMsg.includes("no signers")
+        ) {
+          throw new Error(
+            "Albedo connection failed. Please visit albedo.finance to set up your account."
+          );
+        }
+        throw albedoError;
+      }
+    } else if (walletId === XBULL_ID) {
       result = await StellarWalletsKit.getAddress();
     } else {
       result = await StellarWalletsKit.authModal();
@@ -179,11 +199,21 @@ export async function connectWallet(
     };
   } catch (error: unknown) {
     const errorMsg = error instanceof Error ? error.message : String(error);
+    
+    // Catch Albedo setup message
+    if (errorMsg.includes("albedo.finance")) {
+      throw error;
+    }
+    
     if (
       errorMsg.includes("not installed") ||
       errorMsg.includes("not connected") ||
       errorMsg.includes("No wallet has been connected") ||
-      errorMsg.includes("Wallet Not Found")
+      errorMsg.includes("Wallet Not Found") ||
+      errorMsg.includes("closed the modal") ||
+      errorMsg.includes("Modal closed") ||
+      errorMsg.includes("No suitable") ||
+      errorMsg.includes("Not Found")
     ) {
       throw new Error("Wallet Not Found");
     }

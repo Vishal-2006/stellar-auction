@@ -51,7 +51,7 @@ export function EventListener({
                 );
               }
             },
-            onerror: (_error: unknown) => {
+            onerror: () => {
               // Horizon stream errors are noisy; retry quietly.
               // Retry after 5 seconds
               setTimeout(startEventListener, 5000);

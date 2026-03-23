@@ -32,7 +32,6 @@ export const TEST_NETWORK_PASSPHRASE = "Test SDF Network ; September 2015";
 export const AUCTION_CONTRACT_ID = process.env.NEXT_PUBLIC_AUCTION_CONTRACT_ID || "";
 
 const SOROBAN_RPC = new rpc.Server(SOROBAN_RPC_URL);
-const NEW_BID_TOPIC = xdr.ScVal.scvSymbol("new_bid").toXDR("base64");
 
 function getContractId(): string {
   if (!AUCTION_CONTRACT_ID) {
