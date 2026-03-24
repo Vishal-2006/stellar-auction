@@ -44,17 +44,19 @@ Auction Pulse is a Soroban-powered auction dApp on Stellar Testnet. It delivers 
 ## 🛠️ Technology Stack
 
 ### Frontend
-- **Next.js** (App Router)
-- **TypeScript**
-- **Tailwind CSS**
-- **Framer Motion**
-- **Lucide React**
+
+- ⚡ **Next.js** (App Router)
+- 🧠 **TypeScript**
+- 🎨 **Tailwind CSS**
+- 🌀 **Framer Motion**
+- 🧩 **Lucide React**
 
 ### Blockchain
-- **Soroban RPC**
-- **Stellar SDK**
-- **StellarWalletsKit** (Freighter, Albedo, xBull)
-- **Stellar Testnet**
+
+- 🔗 **Soroban RPC**
+- 🪐 **Stellar SDK**
+- 🧩 **StellarWalletsKit** (Freighter, Albedo, xBull)
+- 🧪 **Stellar Testnet**
 
 ---
 
@@ -104,6 +106,6 @@ Auction Pulse is a Soroban-powered auction dApp on Stellar Testnet. It delivers 
 
 ## 🧰 Scripts
 
-- `npm run dev`
-- `npm run build`
-- `npm run lint`
+- 🚀 **Dev**: `npm run dev`
+- 🏗️ **Build**: `npm run build`
+- ✅ **Lint**: `npm run lint`
