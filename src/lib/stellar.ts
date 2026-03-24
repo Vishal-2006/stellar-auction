@@ -3,7 +3,6 @@ import {
   Horizon,
   TransactionBuilder,
   FeeBumpTransaction,
-  xdr,
   rpc,
   nativeToScVal,
   scValToNative,

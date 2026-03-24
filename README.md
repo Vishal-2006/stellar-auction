@@ -1,103 +1,108 @@
-# Auction Pulse
+# feff# 680 Auction Pulse - Real-Time Soroban Auction Dashboard
 
-Premium Web3 auction dashboard for Stellar Testnet with multi-wallet support, real-time event updates, and a responsive dashboard UX. Built with explicit error handling and verifiable transactions.
+[![Stellar](https://img.shields.io/badge/Stellar-Blockchain-blue?style=for-the-badge)](https://stellar.org)
+[![Next.js](https://img.shields.io/badge/Next.js-App%20Router-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
-## Advanced Features
+## 4dd About the Project
 
-- Multi-wallet integration via StellarWalletsKit (Freighter + Albedo + xBull)
-- Explicit error handling:
-   - Wallet Not Found
-   - Transaction Rejected
-   - Insufficient Balance
-- Real-time event sync (Soroban RPC events + Horizon stream fallback)
-- Transaction hash display with StellarExpert link on bid success
-- Responsive UI with protected dashboard routes
+Auction Pulse is a Soroban-powered auction dApp on Stellar Testnet. It delivers multi-wallet connectivity, live on-chain bidding, and real-time event sync so the UI updates without page refresh. All bids are validated client-side and verified on-chain for transparency.
 
-## Features
+![Dashboard Preview](public/screenshots/Screenshot%202026-03-23%20204019.png)
 
-- Wallet selector modal with provider-specific guidance
-- Connected wallet badge and account display
-- Bid validation and balance checks
-- Outbid notifications with audio cue
-- Transaction link: https://stellar.expert/explorer/testnet/tx/{hash}
+---
 
-## Tech Stack
+## 272 Key Features
 
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- framer-motion
-- @creit.tech/stellar-wallets-kit
-- @stellar/stellar-sdk
+- 510 **Multi-Wallet Integration** - StellarWalletsKit with Freighter, Albedo, and xBull.
+- 4f0 **Real-Time Auction Updates** - Soroban RPC events drive live bid history and top-bid updates.
+- 4dd **Read + Write Contract Calls** - Simulated reads and signed writes with wallet approval.
+- 6a8 **Explicit Error Handling** - Wallet Not Found, User Rejected, Insufficient Balance.
+- 517 **Transaction Proof** - StellarExpert links for submitted transactions.
+- 39b **Protected Dashboard** - Auto-redirect on connect + persistent session restore.
+- 3a8 **Premium UI** - Dark, focused auction UX with smooth motion.
 
-## Project Structure
+---
 
-- src/app/page.tsx: Landing page + wallet connect flow
-- src/app/dashboard/page.tsx: Protected dashboard
-- src/components/WalletSelectorModal.tsx: Multi-wallet selection UI
-- src/components/WalletNotFoundModal.tsx: Wallet guidance modal
-- src/components/BidConsole.tsx: Bid input and validations
-- src/components/EventListener.tsx: Real-time notifications
-- src/lib/stellar.ts: Soroban RPC helpers, Horizon client
-- src/lib/walletKit.ts: Wallet connect/sign logic
-
-## Environment Variables
-
-Create a .env.local with:
-
-```
-NEXT_PUBLIC_SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
-NEXT_PUBLIC_AUCTION_CONTRACT_ID=CBJKU6MOUVZDJQ7T3WI4FLWUFFAGEOSUILLPQRGKU3JGSM4OT73BOXE
-```
-
-## Getting Started
-
-Install dependencies:
-
-```
-npm install
-```
-
-Run the dev server:
-
-```
-npm run dev
-```
-
-Open http://localhost:3000
-
-## Wallet Notes
-
-- Freighter: browser extension required
-- Albedo: requires account setup at https://albedo.finance
-- xBull: optional additional wallet support
-
-## Error Handling Behavior
-
-- Wallet Not Found: shows guidance modal or message
-- Transaction Rejected: shows toast with cancel notice
-- Insufficient Balance: blocks bid and shows balance
-
-## Screenshots (Submission Order)
+## 4f8 Screenshots (Submission Order)
 
 | Order | What to Capture | Preview |
 | --- | --- | --- |
-| 1 | Multi-wallet selector modal (Freighter + Albedo + xBull) | <img src="public/screenshots/Screenshot%202026-03-23%20205733.png" width="360" /> |
-| 2 | Contract state live data (Highest Bid or Timer) | <img src="public/screenshots/Screenshot%202026-03-23%20204019.png" width="360" /> |
+| 1 | Multi-wallet selector modal (Freighter + Albedo + xBull) | <img src="public/screenshots/Screenshot%202026-03-23%20210943.png" width="360" /> |
+| 2 | Contract state live data (Highest Bid) | <img src="public/screenshots/Screenshot%202026-03-23%20204019.png" width="360" /> |
 | 3 | Signing popup for place_bid | <img src="public/screenshots/Screenshot%202026-03-23%20203942.png" width="360" /> |
 | 4 | Successful bid + event toast | <img src="public/screenshots/Screenshot%202026-03-23%20204005.png" width="360" /> |
-| 5 | Error Handling: Wallet Not Found | <img src="public/screenshots/Screenshot%202026-03-23%20211000.png" width="360" /> |
-| 6 | Error Handling: User Rejected | <img src="public/screenshots/Screenshot%202026-03-23%20211030.png" width="360" /> |
-| 7 | Error Handling: Insufficient Balance | <img src="public/screenshots/Screenshot%202026-03-23%20211100.png" width="360" /> |
+| 5 | Error Handling: Wallet Not Found (Freighter install prompt) | <img src="public/screenshots/Screenshot%202026-03-23%20211000.png" width="360" /> |
+| 6 | Error Handling: User Rejected | <img src="public/screenshots/Screenshot%202026-03-23%20205457.png" width="360" /> |
+| 7 | Error Handling: Insufficient Balance | <img src="public/screenshots/Screenshot%202026-03-23%20205254.png" width="360" /> |
+| 8 | Contract deployed (CLI output / explorer confirmation) | <img src="public/screenshots/Screenshot%202026-03-23%20100331.png" width="360" /> |
 
-## Verification Links
+---
 
-- Contract ID: CBJKU6MOUVZDJQ7T3WI4FLWUFFAGEOSUILLPQRGKU3JGSM4OT73BOXE
+## 6e0e0f Technology Stack
+
+### Frontend
+- **Next.js** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion**
+- **Lucide React**
+
+### Blockchain
+- **Soroban RPC**
+- **Stellar SDK**
+- **StellarWalletsKit** (Freighter, Albedo, xBull)
+- **Stellar Testnet**
+
+---
+
+## 4e6 Installation & Setup
+
+### Requirements
+- **Node.js** 20.x or higher
+- **npm** or **yarn**
+- A Stellar wallet extension (Freighter recommended)
+
+### Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Vishal-2006/auction-pulse.git
+   cd auction-pulse
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Create environment file**
+   ```bash
+   NEXT_PUBLIC_SOROBAN_RPC_URL=https://soroban-testnet.stellar.org
+   NEXT_PUBLIC_AUCTION_CONTRACT_ID=CBJKU6MOUVZDJQ7T3WI4FLWUFFAGEOSUILLPQRGKU3JGSM4OT73BOXE
+   NEXT_PUBLIC_ADMIN_ADDRESS=GAIF2YWTN7IDJ3UMETNEN73ARTA34AHB5PNK4ESU2B25DWUH3XPTB3XZ
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open in browser**
+   Navigate to `http://localhost:3000`
+
+---
+
+## 50d Verification Links
+
+- Contract ID: `CBJKU6MOUVZDJQ7T3WI4FLWUFFAGEOSUILLPQRGKU3JGSM4OT73BOXE`
 - Transaction Hash: https://stellar.expert/explorer/testnet/tx/29d4f1b396ba112c76dd6d3194bd9b0065783a03078a334978927b117ecfd213
 
+---
 
-## Scripts
+## 4dc Scripts
 
-- npm run dev
-- npm run build
-- npm run lint
+- `npm run dev`
+- `npm run build`
+- `npm run lint`
