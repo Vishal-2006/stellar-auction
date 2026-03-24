@@ -10,6 +10,7 @@
 Auction Pulse is a Soroban-powered auction dApp on Stellar Testnet. It delivers multi-wallet connectivity, live on-chain bidding, and real-time event sync so the UI updates without page refresh. All bids are validated client-side and verified on-chain for transparency.
 
 ![Dashboard Preview](public/screenshots/Screenshot%202026-03-23%20204019.png)
+![Dashboard Preview](public/screenshots/Screenshot%202026-03-23%20203912.png)
 
 ---
 
@@ -33,7 +34,7 @@ Auction Pulse is a Soroban-powered auction dApp on Stellar Testnet. It delivers 
 | 2 | Contract state live data (Highest Bid) | <img src="public/screenshots/Screenshot%202026-03-23%20204019.png" width="360" /> |
 | 3 | Signing popup for place_bid | <img src="public/screenshots/Screenshot%202026-03-23%20203942.png" width="360" /> |
 | 4 | Successful bid + event toast | <img src="public/screenshots/Screenshot%202026-03-23%20204005.png" width="360" /> |
-| 5 | Error Handling: Wallet Not Found (Freighter install prompt) | <img src="public/screenshots/Screenshot%202026-03-23%20211000.png" width="360" /> |
+| 5 | Error Handling: Wallet Not Found (Freighter install prompt) | <img src="public/screenshots/Screenshot%202026-03-23%20203912.png" width="360" /> |
 | 6 | Error Handling: User Rejected | <img src="public/screenshots/Screenshot%202026-03-23%20205457.png" width="360" /> |
 | 7 | Error Handling: Insufficient Balance | <img src="public/screenshots/Screenshot%202026-03-23%20205254.png" width="360" /> |
 | 8 | Contract deployed (CLI output / explorer confirmation) | <img src="public/screenshots/Screenshot%202026-03-23%20100331.png" width="360" /> |
